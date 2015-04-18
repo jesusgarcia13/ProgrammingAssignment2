@@ -1,10 +1,11 @@
 ## makeCacheMatrix: function to Cache Inverse matrix operation
 ## Includes internal functions to handle cached inverse matrix
+## Author: Jesus Garcia - R Programming (Coursera), course: rprog-013
 makeCacheMatrix <- function(x = matrix()) {
-	# Create empty Inverse matrix holder
+	# Create empty Inverse matrix holder (ix)
 	ix <- matrix(, nrow=nrow(x),ncol=ncol(x))
 	
-	# setter, assign matrix and initialize ix
+	# setter, assign empty matrix to initialize ix
 	set <- function(y) {
                 x <<- y
                ix <<- matrix(, nrow=nrow(x),ncol=ncol(x))
@@ -30,12 +31,13 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
         ix <- x$getInverseMatrix()
 		# Check for 'empty' inverse matrix, if not, use cached value
+		# Empty matrix has all values = NA, vectorized to use function is.na
         if(!all(is.na(as.vector(ix)))) {
                 message("getting cached Inverse matrix")
                 return(ix)
         }
 		# If not cached (first call), calculate or 'solve' the
-		# Inverse matrix and set the value using internal function
+		# Inverse matrix and set the value using the internal function x$setInverseMatrix()
 		# setInverseMatrix
         mdata <- x$get()
         ix <- solve(mdata, ...)
